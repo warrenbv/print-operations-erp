@@ -1,0 +1,7 @@
+{
+  "source": "Independently authored parser example. Fictional code/rate values and no address or customer input. Not a captured response or live tax validation.",
+  "reads": {
+    "kind": "zip_only",
+    "resultCode": 5
+  }
+}

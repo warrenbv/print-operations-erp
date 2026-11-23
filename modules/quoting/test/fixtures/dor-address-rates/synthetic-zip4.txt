@@ -1,0 +1,1 @@
+LocationCode=9002 Rate=0.0625 ResultCode=1

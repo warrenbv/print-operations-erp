@@ -1,0 +1,26 @@
+* text=auto eol=lf
+
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+*.ts   text
+*.tsx  text
+*.js   text
+*.mjs  text
+*.json text
+*.md   text
+*.yml  text
+*.yaml text
+*.sql  text
+*.env.example text
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.xlsx binary
+*.woff binary
+*.woff2 binary

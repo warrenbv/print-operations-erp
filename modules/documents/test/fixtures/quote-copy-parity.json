@@ -1,0 +1,535 @@
+{
+  "_comment": "One fixture, two readers. modules/documents/test/quote-copy-parity.test.ts runs each case through buildQuoteDocument; apps/web/src/app/quoting/quotes/[id]/review/customer-copy.test.ts runs the same cases through the review step's customerCopy. Both must equal `expected`, so the page cannot show the customer something the PDF does not print. Change `expected` only together with both.",
+  "cases": [
+    {
+      "name": "per-roll lines: a pickup with the customer's names, a pending carrier line, a pass-thru line at a custom length",
+      "input": {
+        "customerName": "Cedar Demo Outfitters",
+        "papers": {
+          "0192f000-0000-7000-8000-0000000000a1": {
+            "productFamily": "kraft",
+            "code": "43#",
+            "basisWeightLb": "43.0000"
+          },
+          "0192f000-0000-7000-8000-0000000000a2": {
+            "productFamily": "newsprint",
+            "code": "33#",
+            "basisWeightLb": "30.8000"
+          },
+          "0192f000-0000-7000-8000-0000000000a3": {
+            "productFamily": "butcher",
+            "code": "52#",
+            "basisWeightLb": "52.0000"
+          }
+        },
+        "quote": {
+          "id": "0192f000-0000-7000-8000-000000000001",
+          "customerId": "0192f000-0000-7000-8000-0000000000c1",
+          "status": "draft",
+          "rootQuoteId": "0192f000-0000-7000-8000-000000000001",
+          "versionNumber": 1,
+          "quoteNumber": 318,
+          "createdAt": "2026-10-08T03:30:00.000Z",
+          "updatedAt": "2026-10-08T03:30:00.000Z",
+          "leadTimeDays": 10,
+          "lines": [
+            {
+              "lineNumber": 1,
+              "gradeId": "0192f000-0000-7000-8000-0000000000a1",
+              "rollWidthIn": 24,
+              "footageVariant": "long",
+              "cost": {
+                "feetPerRoll": "1250"
+              },
+              "overwrap": true,
+              "customerDescription": "CEDAR CORE SHEET",
+              "customerPartNumber": "LN-27",
+              "pricingBasis": "per_roll",
+              "quantityRolls": 10,
+              "pricePerRoll": "100.00",
+              "extendedPrice": "1000.00",
+              "estimatedWeightLb": "500",
+              "freightResult": {
+                "mode": "pickup",
+                "cost": "0.00",
+                "margin": "0.00",
+                "invoiceTotal": "0.00",
+                "pending": false
+              }
+            },
+            {
+              "lineNumber": 2,
+              "gradeId": "0192f000-0000-7000-8000-0000000000a2",
+              "rollWidthIn": 36,
+              "footageVariant": "short",
+              "cost": {
+                "feetPerRoll": "2750"
+              },
+              "overwrap": false,
+              "pricingBasis": "per_roll",
+              "quantityRolls": 1,
+              "pricePerRoll": "83.25",
+              "extendedPrice": "83.25",
+              "estimatedWeightLb": "152",
+              "freightResult": {
+                "mode": "carrier",
+                "cost": "0.00",
+                "margin": "0.00",
+                "invoiceTotal": "0.00",
+                "pending": true
+              }
+            },
+            {
+              "lineNumber": 3,
+              "gradeId": "0192f000-0000-7000-8000-0000000000a3",
+              "rollWidthIn": 17,
+              "customWidth": true,
+              "footageVariant": "long",
+              "cost": {
+                "feetPerRoll": "1640"
+              },
+              "overwrap": false,
+              "pricingBasis": "per_roll",
+              "quantityRolls": 4,
+              "pricePerRoll": "57.50",
+              "extendedPrice": "261.00",
+              "estimatedWeightLb": "215",
+              "freightResult": {
+                "mode": "pass_through",
+                "cost": "31.00",
+                "margin": "0.00",
+                "invoiceTotal": "31.00",
+                "pending": true
+              }
+            }
+          ]
+        },
+        "totals": {
+          "extendedPrice": "1344.25",
+          "extendedCost": "1012.00",
+          "extendedMargin": "332.25",
+          "estimatedWeightLb": "867"
+        }
+      },
+      "expected": {
+        "letterhead": {
+          "nameLines": ["DEMO", "PRINTWORKS"],
+          "detailLines": ["100 EXAMPLE WAY", "EXAMPLE CITY, ID 83000", "TELEPHONE 208-555-0142"]
+        },
+        "title": "Quote Q-00318",
+        "rows": [
+          {
+            "label": "Customer",
+            "value": "Cedar Demo Outfitters"
+          },
+          {
+            "label": "Date",
+            "value": "2026-10-07"
+          },
+          {
+            "label": "Lead time",
+            "value": "10 days"
+          }
+        ],
+        "columns": [
+          {
+            "key": "line",
+            "label": "#"
+          },
+          {
+            "key": "description",
+            "label": "Description"
+          },
+          {
+            "key": "quantity",
+            "label": "Rolls",
+            "align": "right"
+          },
+          {
+            "key": "unitPrice",
+            "label": "Price / roll",
+            "align": "right"
+          },
+          {
+            "key": "delivery",
+            "label": "Delivery"
+          },
+          {
+            "key": "freight",
+            "label": "Freight",
+            "align": "right"
+          },
+          {
+            "key": "extended",
+            "label": "Extended",
+            "align": "right"
+          }
+        ],
+        "lines": [
+          {
+            "line": "1",
+            "description": "DP/24x1250/K43 \u00b7 CEDAR CORE SHEET \u00b7 Kraft \u2014 43# \u00b7 24\" \u00d7 1,250 ft \u00b7 overwrapped \u00b7 Part LN-27",
+            "quantity": "10",
+            "unitPrice": "$100.00",
+            "delivery": "Customer pickup - Demo Printworks plant",
+            "freight": "$0.00",
+            "extended": "$1,000.00"
+          },
+          {
+            "line": "2",
+            "description": "DP/36x2750/N33 \u00b7 Newsprint \u2014 33# \u00b7 36\" \u00d7 2,750 ft",
+            "quantity": "1",
+            "unitPrice": "$83.25",
+            "delivery": "Shipped via freight carrier",
+            "freight": "TBD",
+            "extended": "$83.25"
+          },
+          {
+            "line": "3",
+            "description": "Butcher \u2014 52# \u00b7 17\" custom \u00d7 1,640 ft",
+            "quantity": "4",
+            "unitPrice": "$57.50",
+            "delivery": "Delivered",
+            "freight": "$31.00 + TBD",
+            "extended": "$261.00"
+          }
+        ],
+        "notices": [
+          "Freight on one or more lines is still to be confirmed. The total below does not include that freight in full and is not the final delivered price."
+        ],
+        "total": {
+          "label": "Total (freight not final)",
+          "value": "$1,344.25"
+        }
+      }
+    },
+    {
+      "name": "a per-pound line beside a warehouse pickup, same-day lead time, a rep and notes, and a line whose grade was not found",
+      "input": {
+        "customerName": "Juniper Demo Supplies",
+        "papers": {
+          "0192f000-0000-7000-8000-0000000000a4": {
+            "productFamily": "kraft",
+            "code": "57#",
+            "basisWeightLb": "57.0000"
+          }
+        },
+        "salesRepName": "Dana Demo",
+        "quote": {
+          "id": "0192f000-0000-7000-8000-000000000002",
+          "customerId": "0192f000-0000-7000-8000-0000000000c2",
+          "status": "draft",
+          "rootQuoteId": "0192f000-0000-7000-8000-000000000002",
+          "versionNumber": 2,
+          "quoteNumber": 61,
+          "createdAt": "2026-10-07T20:00:00.000Z",
+          "updatedAt": "2026-10-07T20:00:00.000Z",
+          "leadTimeDays": 0,
+          "salesRep": "rowan",
+          "notes": "Price holds for 30 days.",
+          "lines": [
+            {
+              "lineNumber": 1,
+              "gradeId": "0192f000-0000-7000-8000-0000000000a4",
+              "rollWidthIn": 24,
+              "footageVariant": "long",
+              "cost": {
+                "feetPerRoll": "1060"
+              },
+              "overwrap": false,
+              "pricingBasis": "per_pound",
+              "productPricePerLb": "0.5934",
+              "orderedWeightLb": "1650.0000",
+              "quantityRolls": 20,
+              "pricePerRoll": "34.0804",
+              "extendedPrice": "979.1100",
+              "estimatedWeightLb": "1148.6500",
+              "freightResult": {
+                "mode": "pickup",
+                "cost": "0.00",
+                "margin": "0.00",
+                "invoiceTotal": "0.00",
+                "pending": false
+              }
+            },
+            {
+              "lineNumber": 2,
+              "gradeId": "0192f000-0000-7000-8000-0000000000a9",
+              "rollWidthIn": 12,
+              "footageVariant": "short",
+              "cost": {
+                "feetPerRoll": "2280"
+              },
+              "overwrap": false,
+              "pricingBasis": "per_roll",
+              "quantityRolls": 1,
+              "pricePerRoll": "46.00",
+              "extendedPrice": "81.00",
+              "estimatedWeightLb": "38",
+              "freightResult": {
+                "mode": "our_vehicle",
+                "cost": "35.00",
+                "margin": "0.00",
+                "invoiceTotal": "35.00",
+                "pending": false
+              }
+            }
+          ]
+        },
+        "totals": {
+          "extendedPrice": "1060.11",
+          "extendedCost": "562.00",
+          "extendedMargin": "498.11",
+          "estimatedWeightLb": "1186.65"
+        }
+      },
+      "expected": {
+        "letterhead": {
+          "nameLines": ["DEMO", "PRINTWORKS"],
+          "detailLines": ["100 EXAMPLE WAY", "EXAMPLE CITY, ID 83000", "TELEPHONE 208-555-0142"]
+        },
+        "title": "Quote Q-00061 v2",
+        "rows": [
+          {
+            "label": "Customer",
+            "value": "Juniper Demo Supplies"
+          },
+          {
+            "label": "Date",
+            "value": "2026-10-07"
+          },
+          {
+            "label": "Lead time",
+            "value": "Same day"
+          },
+          {
+            "label": "Sales rep",
+            "value": "Dana Demo"
+          }
+        ],
+        "columns": [
+          {
+            "key": "line",
+            "label": "#"
+          },
+          {
+            "key": "description",
+            "label": "Description"
+          },
+          {
+            "key": "quantity",
+            "label": "Qty",
+            "align": "right"
+          },
+          {
+            "key": "unitPrice",
+            "label": "Unit price",
+            "align": "right"
+          },
+          {
+            "key": "delivery",
+            "label": "Delivery"
+          },
+          {
+            "key": "freight",
+            "label": "Freight",
+            "align": "right"
+          },
+          {
+            "key": "extended",
+            "label": "Extended",
+            "align": "right"
+          }
+        ],
+        "lines": [
+          {
+            "line": "1",
+            "description": "DP/24x1060/K57 \u00b7 Kraft \u2014 57# \u00b7 24\" \u00d7 1,060 ft \u00b7 20 rolls",
+            "quantity": "1,650 lb",
+            "unitPrice": "$0.5934 / lb",
+            "delivery": "Customer pickup - Demo Printworks plant",
+            "freight": "$0.00",
+            "extended": "$979.11 est."
+          },
+          {
+            "line": "2",
+            "description": "12\" \u00d7 2,280 ft",
+            "quantity": "1 roll",
+            "unitPrice": "$46.00 / roll",
+            "delivery": "Customer pickup - Demo Printworks warehouse",
+            "freight": "$35.00",
+            "extended": "$81.00"
+          }
+        ],
+        "notices": [
+          "Lines priced by the pound show the pounds ordered. They are invoiced at the weight measured when the order ships."
+        ],
+        "total": {
+          "label": "Total (estimated)",
+          "value": "$1,060.11"
+        },
+        "notes": "Price holds for 30 days."
+      }
+    },
+    {
+      "name": "freight in the price per roll: a warehouse pickup and a pending carrier line",
+      "input": {
+        "customerName": "Cedar Demo Outfitters",
+        "papers": {
+          "0192f000-0000-7000-8000-0000000000a1": {
+            "productFamily": "kraft",
+            "code": "43#",
+            "basisWeightLb": "43.0000"
+          },
+          "0192f000-0000-7000-8000-0000000000a2": {
+            "productFamily": "newsprint",
+            "code": "33#",
+            "basisWeightLb": "30.8000"
+          }
+        },
+        "quote": {
+          "id": "0192f000-0000-7000-8000-000000000003",
+          "customerId": "0192f000-0000-7000-8000-0000000000c1",
+          "status": "draft",
+          "rootQuoteId": "0192f000-0000-7000-8000-000000000003",
+          "versionNumber": 1,
+          "quoteNumber": 207,
+          "createdAt": "2026-10-08T03:30:00.000Z",
+          "updatedAt": "2026-10-08T03:30:00.000Z",
+          "leadTimeDays": 10,
+          "freightInRollPrice": true,
+          "lines": [
+            {
+              "lineNumber": 1,
+              "gradeId": "0192f000-0000-7000-8000-0000000000a1",
+              "rollWidthIn": 24,
+              "footageVariant": "long",
+              "cost": {
+                "feetPerRoll": "1250"
+              },
+              "overwrap": false,
+              "pricingBasis": "per_roll",
+              "quantityRolls": 10,
+              "pricePerRoll": "100.0000",
+              "deliveredPricePerRoll": "103.1500",
+              "extendedPrice": "1031.5000",
+              "estimatedWeightLb": "500",
+              "freightResult": {
+                "mode": "our_vehicle",
+                "cost": "31.5000",
+                "margin": "0.0000",
+                "invoiceTotal": "31.5000",
+                "pending": false
+              }
+            },
+            {
+              "lineNumber": 2,
+              "gradeId": "0192f000-0000-7000-8000-0000000000a2",
+              "rollWidthIn": 36,
+              "footageVariant": "short",
+              "cost": {
+                "feetPerRoll": "2750"
+              },
+              "overwrap": false,
+              "pricingBasis": "per_roll",
+              "quantityRolls": 1,
+              "pricePerRoll": "83.2500",
+              "deliveredPricePerRoll": "83.2500",
+              "extendedPrice": "83.2500",
+              "estimatedWeightLb": "152",
+              "freightResult": {
+                "mode": "carrier",
+                "cost": "0.0000",
+                "margin": "0.0000",
+                "invoiceTotal": "0.0000",
+                "pending": true
+              }
+            }
+          ]
+        },
+        "totals": {
+          "extendedPrice": "1114.7500",
+          "extendedCost": "912.0000",
+          "extendedMargin": "202.7500",
+          "estimatedWeightLb": "652"
+        }
+      },
+      "expected": {
+        "letterhead": {
+          "nameLines": ["DEMO", "PRINTWORKS"],
+          "detailLines": ["100 EXAMPLE WAY", "EXAMPLE CITY, ID 83000", "TELEPHONE 208-555-0142"]
+        },
+        "title": "Quote Q-00207",
+        "rows": [
+          {
+            "label": "Customer",
+            "value": "Cedar Demo Outfitters"
+          },
+          {
+            "label": "Date",
+            "value": "2026-10-07"
+          },
+          {
+            "label": "Lead time",
+            "value": "10 days"
+          }
+        ],
+        "columns": [
+          {
+            "key": "line",
+            "label": "#"
+          },
+          {
+            "key": "description",
+            "label": "Description"
+          },
+          {
+            "key": "quantity",
+            "label": "Rolls",
+            "align": "right"
+          },
+          {
+            "key": "unitPrice",
+            "label": "Price / roll incl. freight",
+            "align": "right"
+          },
+          {
+            "key": "delivery",
+            "label": "Delivery"
+          },
+          {
+            "key": "extended",
+            "label": "Extended",
+            "align": "right"
+          }
+        ],
+        "lines": [
+          {
+            "line": "1",
+            "description": "DP/24x1250/K43 \u00b7 Kraft \u2014 43# \u00b7 24\" \u00d7 1,250 ft",
+            "quantity": "10",
+            "unitPrice": "$103.15",
+            "delivery": "Customer pickup - Demo Printworks warehouse",
+            "extended": "$1,031.50"
+          },
+          {
+            "line": "2",
+            "description": "DP/36x2750/N33 \u00b7 Newsprint \u2014 33# \u00b7 36\" \u00d7 2,750 ft",
+            "quantity": "1",
+            "unitPrice": "$83.25 + TBD",
+            "delivery": "Shipped via freight carrier",
+            "extended": "$83.25"
+          }
+        ],
+        "notices": [
+          "Freight is included in each line's price.",
+          "Freight on one or more lines is still to be confirmed. The total below does not include that freight in full and is not the final delivered price."
+        ],
+        "total": {
+          "label": "Total (freight not final)",
+          "value": "$1,114.75"
+        }
+      }
+    }
+  ]
+}

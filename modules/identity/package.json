@@ -1,0 +1,31 @@
+{
+  "name": "@erp/identity",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Sign-in through LDAP or local accounts, server-side sessions, user records, role assignments and the break-glass account.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "test": "vitest run",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "db:generate": "drizzle-kit generate",
+    "break-glass:set": "pnpm run build && node dist/cli/set-break-glass-password.js",
+    "ldap:probe": "pnpm run build && node dist/cli/ldap-bind-probe.js"
+  },
+  "dependencies": {
+    "@erp/db": "workspace:^",
+    "@erp/types": "workspace:*",
+    "@node-rs/argon2": "^2.0.2",
+    "drizzle-orm": "^0.45.2",
+    "ldapts": "^8.2.0"
+  },
+  "devDependencies": {
+    "@erp/config": "workspace:*",
+    "@types/node": "^22.10.5",
+    "drizzle-kit": "^0.31.10",
+    "typescript": "^5.6.2",
+    "vitest": "^4.1.10"
+  }
+}

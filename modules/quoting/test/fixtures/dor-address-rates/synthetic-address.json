@@ -1,0 +1,10 @@
+{
+  "source": "Independently authored parser example. Fictional code/rate values and no address or customer input. Not a captured response or live tax validation.",
+  "reads": {
+    "kind": "located",
+    "how": "address",
+    "locationCode": "9001",
+    "stateRate": "0.075",
+    "resultCode": 0
+  }
+}

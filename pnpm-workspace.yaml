@@ -1,0 +1,27 @@
+packages:
+  - 'apps/*'
+  - 'modules/*'
+  - 'packages/*'
+
+onlyBuiltDependencies:
+  - '@embedded-postgres/darwin-arm64'
+  - '@embedded-postgres/darwin-x64'
+  - '@embedded-postgres/linux-arm'
+  - '@embedded-postgres/linux-arm64'
+  - '@embedded-postgres/linux-ia32'
+  - '@embedded-postgres/linux-ppc64'
+  - '@embedded-postgres/linux-x64'
+  - '@embedded-postgres/windows-x64'
+
+# Security fixes for transitive dependencies whose parent pins a vulnerable version. Each forced
+# version stays in the major line the parent already uses. Remove an entry once its parent ships the fix.
+overrides:
+  # CSS processing inside the Next.js build. Fixes the source-map file disclosure and the stringify injection.
+  'next@15>postcss': '^8.5.23'
+  # The lint rule for module boundaries. Fixes the micromatch ReDoS.
+  'eslint-plugin-boundaries@4>micromatch': '~4.0.8'
+
+ignoredBuiltDependencies:
+  - esbuild
+  - sharp
+  - unrs-resolver

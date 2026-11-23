@@ -1,0 +1,33 @@
+{
+  "name": "@erp/types",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Contracts shared by modules and applications: Zod schemas and their inferred TypeScript types.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "test": "vitest run",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "big.js": "^7.0.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@erp/config": "workspace:*",
+    "@types/big.js": "^7.0.0",
+    "typescript": "^5.6.2",
+    "vitest": "^4.1.10"
+  }
+}

@@ -1,0 +1,1 @@
+LocationCode=9003 Rate=0.08 ResultCode=2
